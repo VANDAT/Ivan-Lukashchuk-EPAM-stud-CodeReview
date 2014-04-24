@@ -10,7 +10,7 @@ import java.util.concurrent.Future;
 
 public class SinSumES {
 
-	static double sum;
+	double sum;
 
 	public double sinSum(final int n, final int numberOfThreads) {
 		if (n < 0) {
@@ -59,11 +59,11 @@ public class SinSumES {
 	}
 
 	private double partSinSum(int from, int size) {
-		double sum = 0;
+		double paerSum = 0;
 		for (; size > 0; size--, from++) {
-			sum += sin(from);
+			paerSum += sin(from);
 		}
-		return sum;
+		return paerSum;
 	}
 
 	private double sin(int n) {
