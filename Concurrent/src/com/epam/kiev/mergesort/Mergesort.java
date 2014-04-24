@@ -5,8 +5,14 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 
 public class Mergesort {
+	
+	private ExecutorService service;
+	
+	public Mergesort(ExecutorService service){
+		this.service = service;
+	}
 
-	public int[] sort(int[] a, final ExecutorService service) {
+	public int[] sort(int[] a) {
 		if (a.length == 1) {
 			return a;
 		}
@@ -22,12 +28,12 @@ public class Mergesort {
 			}
 		}
 		int[] sortedLeft = null;
-		int[] sortedRight = sort(right, service);
+		int[] sortedRight = sort(right);
 		try {
 			sortedLeft = service.submit(new Callable<int[]>() {
 				@Override
 				public int[] call() throws Exception {				
-					return sort(left, service);
+					return sort(left);
 				}
 			}).get();			
 		} catch (InterruptedException e) {
