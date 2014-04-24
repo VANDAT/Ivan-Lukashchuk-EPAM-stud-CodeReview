@@ -3,6 +3,7 @@ package com.epam.kiev.mergesort;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 public class Mergesort {
 	
@@ -26,23 +27,24 @@ public class Mergesort {
 			} else {
 				right[i - middle] = a[i];
 			}
-		}
-		int[] sortedLeft = null;
-		int[] sortedRight = sort(right);
+		}		
+		Future<int[]> future;
 		try {
-			sortedLeft = service.submit(new Callable<int[]>() {
+			future = service.submit(new Callable<int[]>() {
 				@Override
 				public int[] call() throws Exception {				
-					return sort(left);
+					return sort(right);
 				}
-			}).get();			
+			});		
+			return merge(sort(left),
+					future.get());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (ExecutionException e) {
 			e.printStackTrace();
-		}		
-		return merge(sortedLeft,
-				sortedRight);
+		}	
+		return null;
+		
 	}
 
 	private int[] merge(int[] left, int[] right) {
