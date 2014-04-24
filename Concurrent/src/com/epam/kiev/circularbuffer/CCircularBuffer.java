@@ -37,7 +37,7 @@ public class CCircularBuffer<T> implements CircularBuffer<T> {
 		}
 		lock.lock();
 		try {
-			if (writeNode.item != null) {
+			while (writeNode.item != null) {
 				try {
 					notFull.await();
 				} catch (InterruptedException e) {
@@ -56,7 +56,7 @@ public class CCircularBuffer<T> implements CircularBuffer<T> {
 		lock.lock();
 		try {
 			T item = readNode.item;
-			if (item == null) {
+			while (item == null) {
 				try {
 					notEmpty.await();
 				} catch (InterruptedException e) {
