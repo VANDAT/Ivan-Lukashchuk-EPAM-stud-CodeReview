@@ -12,14 +12,14 @@ public class Main {
 	
 	public static void main(String[] args) {	
 		final Bank bank = new Bank();
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 100; i++) {
 			bank.getAccounts().add(new Account(rand()));
 		}
 		System.out.println(bank);
 		System.out.println(bank.getAmountOfMoney() + " $$$");
 		ExecutorService service = Executors.newCachedThreadPool();
 		long l = System.currentTimeMillis();
-		for(int i = 0; i < 10000; i++){
+		for(int i = 0; i < 1000; i++){
 			service.submit(new Runnable() {				
 				@Override
 				public void run() {
