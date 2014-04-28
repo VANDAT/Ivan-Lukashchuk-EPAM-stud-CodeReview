@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class SinSumVJ {
 
-	static double sum;
+	double sum;
 
 	public double sinSum(final int n, final int numberOfThreads) {
 		if (n < 0) {
@@ -48,11 +48,11 @@ public class SinSumVJ {
 	}
 
 	private double partSinSum(int from, int size) {
-		double sum = 0;
+		double paerSum = 0;
 		for (; size > 0; size--, from++) {
-			sum += sin(from);
+			paerSum += sin(from);
 		}
-		return sum;
+		return paerSum;
 	}
 
 	private double sin(int n) {

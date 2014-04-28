@@ -28,7 +28,7 @@ public class NCCircularBuffer<T> implements CircularBuffer<T> {
 			throw new IllegalArgumentException();
 		}
 		synchronized (writeNode) {
-			if (writeNode.item != null) {
+			while (writeNode.item != null) {
 				try {
 					writeNode.wait();
 				} catch (InterruptedException e) {
@@ -46,7 +46,7 @@ public class NCCircularBuffer<T> implements CircularBuffer<T> {
 	public T read() {
 		synchronized (readNode) {
 			T item = readNode.item;
-			if (item == null) {
+			while (item == null) {
 				try {
 					readNode.wait();
 				} catch (InterruptedException e) {

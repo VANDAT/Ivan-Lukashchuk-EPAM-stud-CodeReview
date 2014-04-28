@@ -12,7 +12,7 @@ public class Main {
 		}
 		long l = System.currentTimeMillis();
 		ExecutorService service = Executors.newCachedThreadPool();
-		int[] q = new Mergesort().sort(ai, Executors.newCachedThreadPool());
+		int[] q = new Mergesort(service).sort(ai);
 		service.shutdown();
 		System.out.println(System.currentTimeMillis() - l + " ms");
 //		 for(int x:q){

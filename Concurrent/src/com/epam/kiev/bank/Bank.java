@@ -13,35 +13,39 @@ public class Bank {
 				.get((int) (Math.random() * (accounts.size() - 1)));
 		Account to = accounts
 				.get((int) (Math.random() * (accounts.size() - 1)));
-		int amount = (int) (Math.random() * (from.getBalance()));		
+		int amount = (int) (Math.random() * (from.getBalance()));
 		transfer(from, to, amount);
 	}
 
 	public void transfer(Account from, Account to, int amount) {
+		while (!transf(from, to, amount)) {
+		}
+	}
+
+	private boolean transf(Account from, Account to, int amount) {
+		boolean result = false;
 		try {
-			if (from.getLock().tryLock(12, TimeUnit.MILLISECONDS)) {
+			if (from.getLock().tryLock((int) (Math.random() * 50),
+					TimeUnit.MILLISECONDS)) {
 				try {
-					if (to.getLock().tryLock(10, TimeUnit.MILLISECONDS)) {
+					if (to.getLock().tryLock((int) (Math.random() * 20),
+							TimeUnit.MILLISECONDS)) {
 						try {
 							from.withdraw(amount);
 							to.deposit(amount);
+							result = true;
 						} finally {
 							to.getLock().unlock();
 						}
-					}else{
-						from.getLock().unlock();
-						transfer(from, to, amount);
 					}
 				} finally {
 					from.getLock().unlock();
 				}
-			}else{
-				transfer(from, to, amount);
 			}
 		} catch (InterruptedException e) {
 			e.printStackTrace();
-		} catch (IllegalArgumentException e){
 		}
+		return result;
 	}
 
 	public int getAmountOfMoney() {
